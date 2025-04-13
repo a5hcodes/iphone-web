@@ -6,7 +6,6 @@ import { yellowImg } from '../utils';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { View } from '@react-three/drei';
-import { color, label } from 'three/tsl';
 import { models, sizes } from '../constants';
 
 const Model = () => {
@@ -17,15 +16,12 @@ const Model = () => {
         img: yellowImg,
     });
 
-    // camera control for model view
     const cameraControlSmall = useRef();
     const cameraControlLarge = useRef();
 
-    // actual models themselves
     const small = useRef(new THREE.Group());
     const large = useRef(new THREE.Group());
 
-    // rotation
     const [smallRotation, setSmallRotation] = useState(0);
     const [largeRotation, setLargeRotation] = useState(0);
 
@@ -50,7 +46,7 @@ const Model = () => {
                             groupRef={small}
                             controlRef={cameraControlSmall}
                             setRotationState={setSmallRotation}
-                            items={model}
+                            item={model}
                             size={size}
                         />
                         <ModelView
@@ -58,7 +54,7 @@ const Model = () => {
                             groupRef={large}
                             controlRef={cameraControlLarge}
                             setRotationState={setLargeRotation}
-                            items={model}
+                            item={model}
                             size={size}
                         />
 
@@ -71,14 +67,16 @@ const Model = () => {
                                 bottom: 0,
                                 left: 0,
                                 right: 0,
-                                pointerEvents: 'none', // to allow UI interaction
-                                zIndex: -1, // keep it behind other UI elements
+                                pointerEvents: 'none',
+                                zIndex: -1,
                             }}
                             eventSource={document.getElementById('root')}
                         >
                             <View.Port />
                         </Canvas>
                     </div>
+
+                    {/* UI Below */}
                     <div className='mx-auto w-full'>
                         <p className='text-sm font-light text-center mb-5'>{model.title}</p>
                         <div className='flex-center'>
@@ -96,13 +94,14 @@ const Model = () => {
                                         style={{
                                             backgroundColor: size === value ? 'white' : 'transparent',
                                             color: size === value ? 'black' : 'white'
-                                        }} onClick={() => setSize(value)}>
+                                        }}
+                                        onClick={() => setSize(value)}
+                                    >
                                         {label}
                                     </span>
                                 ))}
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>

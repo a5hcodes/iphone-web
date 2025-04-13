@@ -1,9 +1,9 @@
-import { PerspectiveCamera, View } from '@react-three/drei'
-import React, { Suspense } from 'react'
-import Lights from './Lights'
-import IPhone from './IPhone'
+import { PerspectiveCamera, View, Html } from '@react-three/drei';
+import React, { Suspense } from 'react';
+import Lights from './Lights';
+import IPhone from './IPhone';
 
-const ModelView = ({ index, groupRef, gsapType, controlRef, setRotationSize, size, item }) => {
+const ModelView = ({ index, groupRef, gsapType, controlRef, setRotationState, size, item }) => {
     return (
         <View
             index={index}
@@ -14,11 +14,18 @@ const ModelView = ({ index, groupRef, gsapType, controlRef, setRotationSize, siz
             <ambientLight intensity={0.3} />
             <PerspectiveCamera makeDefault position={[0, 0, 4]} />
             <Lights />
-            <Suspense fallback={<div>Loading</div>}>
-                <IPhone />
+
+            {/* Fixed: Html wrapper for fallback */}
+            <Suspense fallback={
+                <Html>
+                    <div style={{ color: 'white' }}>Loading...</div>
+                </Html>
+            }>
+                <IPhone item={item} size={size} />
             </Suspense>
 
         </View>
-    )
-}
-export default ModelView
+    );
+};
+
+export default ModelView;
